@@ -5,3 +5,5 @@ heco-energy/incoming/*
 !heco-energy/incoming/.gitkeep
 heco-energy/processed/*
 !heco-energy/processed/.gitkeep
+home-assistant/*
+!home-assistant/docker-compose.yml
