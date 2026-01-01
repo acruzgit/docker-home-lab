@@ -1,0 +1,31 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${DB_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${DB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=homelab
+      - DOCKER_INFLUXDB_INIT_BUCKET=energy
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUX_TOKEN}
+    restart: unless-stopped
+  importer:
+    build: ./importer
+    container_name: heco_importer
+    environment:
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - INFLUX_ORG=homelab
+      - INFLUX_BUCKET=energy
+    volumes:
+      - ./incoming:/incoming
+      - ./processed:/processed
+      - ./failed:/failed
+    depends_on:
+      - influxdb
+    restart: unless-stopped

@@ -1,0 +1,7 @@
+*.env
+heco-energy/failed/*
+!heco-energy/failed/.gitkeep
+heco-energy/incoming/*
+!heco-energy/incoming/.gitkeep
+heco-energy/processed/*
+!heco-energy/processed/.gitkeep
